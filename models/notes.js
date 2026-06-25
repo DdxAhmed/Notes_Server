@@ -14,8 +14,15 @@ const NoteSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true
+    },
+    isCompleted: {
+        type: Boolean,
+        default: false
     }
+}, {
+    timestamps: true
 });
+
 
 const Note = mongoose.model('Note', NoteSchema);
 export default Note;

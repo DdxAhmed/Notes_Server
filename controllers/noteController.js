@@ -25,14 +25,20 @@ export const createNote = async (req, res) => {
 
 // logic update note
 export const updateNote = async (req, res) => {
-    const { title, content } = req.body;
+    const { title, content, isCompleted } = req.body;
     try {
         const existingNote = await Note.findOne({ _id: req.params.id, user_id: req.user.id });
         if (!existingNote) {
             return res.status(404).json({ message: "Note not found" });
         }
+
         existingNote.title = title || existingNote.title;
         existingNote.content = content || existingNote.content;
+
+
+        if (typeof isCompleted !== 'undefined') {
+            existingNote.isCompleted = isCompleted;
+        }
 
         const updatedNote = await existingNote.save();
         return res.status(200).json(updatedNote);
